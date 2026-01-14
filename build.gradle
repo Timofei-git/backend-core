@@ -1,19 +1,103 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'ru.mentee.power'
 version = '1.0-SNAPSHOT'
+
+ext {
+    junitVersion = '5.10.0'
+    assertjVersion = '3.25.3'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    mainClass = 'ru.mentee.power.ProgressDemo'
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation platform("org.junit:junit-bom:5.10.0")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+    testImplementation "org.assertj:assertj-core:3.26.3"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+checkstyle {
+    toolVersion = '10.12.4'  // актуальная версия на 2025 год для Gradle 9.1
+    maxErrors = 0      // даже 1 ошибка (severity=error) → BUILD FAILED
+    maxWarnings = 999  // предупреждения (severity=warning) не блокируют сборку
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml") // опционально, custom config
+}
+
+// Настройка JaCoCo
+jacoco {
+    toolVersion = '0.8.14'  // актуальная версия на 2025 год с поддержкой Java 25
+}
+
+// Настройка тестов
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport  // генерировать отчёт после тестов
+}
+
+// Настройка JaCoCo отчёта
+jacocoTestReport {
+    dependsOn test
+
+    classDirectories.setFrom(
+            files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        '**/*Main*.*',
+                        '**/*List*.*',
+                        '**/*Tracker*.*',// main-классы
+                        '**/*Application*.*',   // Spring Boot / entry point
+                        '**/*Demo*.*'           // демо-классы
+                ])
+            })
+    )
+
+    reports {
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir('reports/jacoco/test/html')
+    }
+}
+
+// Настройка проверки покрытия (минимум 80%)
+jacocoTestCoverageVerification {
+    dependsOn jacocoTestReport
+    classDirectories.setFrom(
+            files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        '**/*Main*.*',
+                        '**/*List*.*',
+                        '**/*Tracker*.*',
+                        '**/*Application*.*',
+                        '**/*Demo*.*'
+                ])
+            })
+    )
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.80  // 80% покрытия инструкций
+            }
+        }
+    }
+}
+
+// Интеграция проверок в lifecycle
+check {
+    dependsOn jacocoTestCoverageVerification
 }
