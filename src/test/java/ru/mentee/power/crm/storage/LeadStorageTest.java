@@ -3,7 +3,9 @@ package ru.mentee.power.crm.storage;
 import org.junit.jupiter.api.Test;
 import ru.mentee.power.crm.domain.Lead;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 
 class LeadStorageTest {
 
