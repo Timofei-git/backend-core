@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class LeadTest {
   @Test
-  void shouldReturnId_whenGetIdCalled() {
+  void shouldReturnIdWhenGetIdCalled() {
       // Given
     Lead lead = new Lead("L1", "test@example.com", "+71234567890", "TestCorp", "NEW");
 
@@ -17,7 +17,7 @@ class LeadTest {
   }
 
   @Test
-  void shouldReturnPhone_whenGetPhoneCalled() {
+  void shouldReturnPhoneWhenGetPhoneCalled() {
     Lead lead = new Lead("L1", "test@example.com", "+71234567890", "TestCorp", "NEW");
 
       // When
@@ -28,7 +28,7 @@ class LeadTest {
   }
 
   @Test
-  void shouldReturnCompany_whenGetCompanyCalled() {
+  void shouldReturnCompanyWhenGetCompanyCalled() {
     Lead lead = new Lead("L1", "test@example.com", "+71234567890", "TestCorp", "NEW");
 
       // When
@@ -39,7 +39,7 @@ class LeadTest {
   }
 
   @Test
-  void shouldReturnEmail_whenGetEmailCalled() {
+  void shouldReturnEmailWhenGetEmailCalled() {
     Lead lead = new Lead("L1", "test@example.com", "+71234567890", "TestCorp", "NEW");
 
         // When
@@ -50,7 +50,7 @@ class LeadTest {
   }
 
   @Test
-  void shouldReturnStatus_whenGetStatusCalled() {
+  void shouldReturnStatusWhenGetStatusCalled() {
     Lead lead = new Lead("L1", "test@example.com", "+71234567890", "TestCorp", "NEW");
 
         // When
@@ -61,7 +61,7 @@ class LeadTest {
   }
 
   @Test
-  void shouldReturntoString_whentoStringCalled() {
+  void shouldReturnToStringWhenToStringCalled() {
     Lead lead = new Lead("L1", "test@example.com", "+71234567890", "TestCorp", "NEW");
 
     // When
