@@ -2,33 +2,32 @@ package ru.mentee.power.crm.domain;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ContactTest {
 
   @Test
   void shouldCreateContactWhenValidData() {
-    Contact contact = new Contact("John", "Doe", "john@example.com");
-    String firstName = contact.firstName();
+    Address address = new Address("Mogilev", "Pysina", "220102");
+    Contact contact = new Contact("timasgridin@mail.ru", "+375299700571", address);
 
-    assertThat(firstName).isEqualTo("John");
-    assertThat(contact.lastName()).isEqualTo("Doe");
-    assertThat(contact.email()).isEqualTo("john@example.com");
+    assertThat(contact.address()).isEqualTo(address);
+    assertThat(contact.address().city()).isEqualTo("Mogilev");
   }
 
   @Test
-  void shouldBeEqualWhenSameData() {
-    Contact contact = new Contact("John", "Doe", "john@example.com");
-    Contact contact1 = new Contact("John", "Doe", "john@example.com");
+  void shouldDelegateToAddressWhenAccessingCity() {
+    Address address = new Address("Mogilev", "Pysina", "220102");
+    Contact contact = new Contact("timasgridin@mail.ru", "+375299700571", address);
 
-    assertThat(contact).isEqualTo(contact1);
-    assertThat(contact.hashCode()).hasSameHashCodeAs(contact1.hashCode());
+    assertThat(contact.address().street()).isEqualTo("Pysina");
+    assertThat(contact.address().city()).isEqualTo("Mogilev");
   }
 
   @Test
-  void shouldNotBeEqualWhenDifferentData() {
-    Contact contact = new Contact("John", "Doe", "john@example.com");
-    Contact contact1 = new Contact("John1", "Doe1", "john1@example.com");
-
-    assertThat(contact).isNotEqualTo(contact1);
+  void shouldThrowExceptionWhenAddressIsNull() {
+    assertThatThrownBy(()-> new Contact("timasgridin@mail.ru", "+375299700571", null))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("Address");
   }
 }
