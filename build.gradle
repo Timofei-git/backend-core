@@ -65,6 +65,7 @@ jacocoTestReport {
                 fileTree(dir: it, exclude: [
                         '**/*Main*.*',
                         '**/*List*.*',
+                        '**/*Repository*.*',
                         '**/*Tracker*.*',// main-классы
                         '**/*Application*.*',   // Spring Boot / entry point
                         '**/*Demo*.*'           // демо-классы
