@@ -35,4 +35,13 @@ public class InMemoryLeadRepository implements Repository<Lead> {
   public List<Lead> findAll() {
     return new ArrayList<>(storage);
   }
+
+  public boolean contains(Lead lead) {
+    return storage.contains(lead);
+  }
+
+  public int size() {
+    // TODO: Вернуть размер множества
+    return storage.size();
+  }
 }
