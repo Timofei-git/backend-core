@@ -41,7 +41,6 @@ public class InMemoryLeadRepository implements Repository<Lead> {
   }
 
   public int size() {
-    // TODO: Вернуть размер множества
     return storage.size();
   }
 }

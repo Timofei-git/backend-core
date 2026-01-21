@@ -1,19 +1,18 @@
 package ru.mentee.power.crm.core;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import ru.mentee.power.crm.domain.Address;
 import ru.mentee.power.crm.domain.Contact;
 import ru.mentee.power.crm.domain.Lead;
-import ru.mentee.power.crm.infrastructure.InMemoryLeadRepository;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LeadRepositoryTest {
   Address address = new Address("Mogilev", "Pysina", "220102");
@@ -61,8 +60,8 @@ class LeadRepositoryTest {
   void shouldPerformFasterThanArrayList() {
     LeadRepository leadRepository = new LeadRepository();
     UUID id = UUID.randomUUID();
-    Lead lead1= new Lead(id, contact, "TechCorp", "NEW");
-    for (int i = 0; i < 10000;  i++) {
+    Lead lead1 = new Lead(id, contact, "TechCorp", "NEW");
+    for (int i = 0; i < 10000; i++) {
       leadRepository.add(lead1);
     }
     List<Lead> storage = new ArrayList<>();
