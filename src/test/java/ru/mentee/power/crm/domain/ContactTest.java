@@ -26,7 +26,7 @@ class ContactTest {
 
   @Test
   void shouldThrowExceptionWhenAddressIsNull() {
-    assertThatThrownBy(()-> new Contact("timasgridin@mail.ru", "+375299700571", null))
+    assertThatThrownBy(() -> new Contact("timasgridin@mail.ru", "+375299700571", null))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Address");
   }

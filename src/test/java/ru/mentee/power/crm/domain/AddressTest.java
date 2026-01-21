@@ -27,14 +27,14 @@ class AddressTest {
 
   @Test
   void shouldThrowExceptionWhenCityIsNull() {
-    assertThatThrownBy(()->new Address(null, "123 Main St", "94105"))
+    assertThatThrownBy(() -> new Address(null, "123 Main St", "94105"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("City");
   }
 
   @Test
   void shouldThrowExceptionWhenZipIsBlank() {
-    assertThatThrownBy(()->new Address("San Francisco", "123 Main St", ""))
+    assertThatThrownBy(() -> new Address("San Francisco", "123 Main St", ""))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("ZIP");
   }

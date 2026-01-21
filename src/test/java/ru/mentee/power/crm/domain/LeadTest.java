@@ -43,7 +43,7 @@ class LeadTest {
   @Test
   void shouldThrowExceptionWhenContactIsNull() {
 
-    assertThatThrownBy(()-> new Lead(UUID.randomUUID(), null, "Microsoft", "NEW"))
+    assertThatThrownBy(() -> new Lead(UUID.randomUUID(), null, "Microsoft", "NEW"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Contact");
   }
@@ -53,7 +53,7 @@ class LeadTest {
     Address address = new Address("Mogilev", "Pysina", "220102");
     Contact contact = new Contact("timasgridin@mail.ru", "+375299700571", address);
 
-    assertThatThrownBy(()-> new Lead(UUID.randomUUID(), contact, "Microsoft", "Invalid"))
+    assertThatThrownBy(() -> new Lead(UUID.randomUUID(), contact, "Microsoft", "Invalid"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Invalid status");
 
