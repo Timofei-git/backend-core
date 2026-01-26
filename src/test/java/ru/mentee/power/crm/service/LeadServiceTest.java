@@ -11,7 +11,8 @@ import ru.mentee.power.crm.service.LeadService;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class LeadServiceTest {
 
@@ -25,7 +26,7 @@ public class LeadServiceTest {
   }
 
   @Test
-  void shouldCreateLead_whenEmailIsUnique() {
+  void shouldCreateLeadWhenEmailIsUnique() {
     // Given
     String email = "test@example.com";
     String company = "Test Company";
@@ -43,7 +44,7 @@ public class LeadServiceTest {
   }
 
   @Test
-  void shouldThrowException_whenEmailAlreadyExists() {
+  void shouldThrowExceptionWhenEmailAlreadyExists() {
     // Given
     String email = "duplicate@example.com";
     service.addLead(email, "First Company", LeadStatus.NEW);
@@ -96,7 +97,7 @@ public class LeadServiceTest {
   }
 
   @Test
-  void shouldReturnEmpty_whenLeadNotFound() {
+  void shouldReturnEmptyWhenLeadNotFound() {
     // Given/When
     Optional<Lead> result = service.findByEmail("nonexistent@example.com");
 
