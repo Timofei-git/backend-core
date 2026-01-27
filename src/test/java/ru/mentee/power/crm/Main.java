@@ -9,8 +9,8 @@ public class Main {
     HelloCrmServer server = new HelloCrmServer(port);
 
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-       System.out.println("Stopping server...");
-       server.stop();
+      System.out.println("Stopping server...");
+      server.stop();
     }));
 
     server.start();
