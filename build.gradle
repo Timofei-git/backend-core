@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'checkstyle'
     id 'jacoco'
+    id 'gg.jte.gradle' version '3.1.15'
 }
 
 group = 'ru.mentee.power'
@@ -14,6 +15,7 @@ ext {
     lombokVersion = '1.18.36'
     servletVersion = '6.1.0'
     tomcatVersion = '11.0.1'
+    jteVersion = '3.1.15'
 }
 
 java {
@@ -44,6 +46,9 @@ dependencies {
 
     implementation "jakarta.servlet:jakarta.servlet-api:${servletVersion}"
     implementation "org.apache.tomcat.embed:tomcat-embed-core:11.0.1"
+
+    implementation "gg.jte:jte:${jteVersion}"
+    implementation "gg.jte:jte-runtime:${jteVersion}"
 }
 
 checkstyle {
@@ -114,4 +119,10 @@ jacocoTestCoverageVerification {
 // Интеграция проверок в lifecycle
 check {
     dependsOn jacocoTestCoverageVerification
+}
+
+jte {
+    sourceDirectory = file("src/main/jte").toPath()
+    contentType = "Html"
+    binaryStaticContent = false
 }
