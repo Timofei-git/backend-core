@@ -4,6 +4,8 @@ plugins {
     id 'checkstyle'
     id 'jacoco'
     id 'gg.jte.gradle' version '3.1.15'
+    id 'org.springframework.boot' version '3.5.9'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'ru.mentee.power'
@@ -16,6 +18,8 @@ ext {
     servletVersion = '6.1.0'
     tomcatVersion = '11.0.1'
     jteVersion = '3.1.15'
+    springBootVersion = '3.5.9'
+    jteSpringBootVersion = '3.2.1'
 }
 
 java {
@@ -49,6 +53,8 @@ dependencies {
 
     implementation "gg.jte:jte:${jteVersion}"
     implementation "gg.jte:jte-runtime:${jteVersion}"
+
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
 }
 
 checkstyle {
@@ -125,4 +131,7 @@ jte {
     sourceDirectory = file("src/main/jte").toPath()
     contentType = "Html"
     binaryStaticContent = false
+}
+bootRun {
+    mainClass = 'ru.mentee.power.crm.spring.Application'
 }
