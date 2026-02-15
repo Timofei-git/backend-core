@@ -18,7 +18,7 @@ class LeadStorageTest {
     Address address = new Address("Mogilev", "Pysina", "220102");
     Contact contact = new Contact("timasgridin@mail.ru", "+375299700571", address);
     LeadStorage storage = new LeadStorage();
-    Lead uniqueLead = new Lead(UUID.randomUUID(), contact, "TechCorp", "NEW");
+    Lead uniqueLead = new Lead(UUID.randomUUID(), contact, "TechCorp");
 
         // When
     boolean added = storage.add(uniqueLead);
@@ -35,8 +35,8 @@ class LeadStorageTest {
     LeadStorage storage = new LeadStorage();
     Address address = new Address("Mogilev", "Pysina", "220102");
     Contact contact = new Contact("timasgridin@mail.ru", "+375299700571", address);
-    Lead existingLead = new Lead(UUID.randomUUID(), contact, "TechCorp", "NEW");
-    Lead duplicateLead = new Lead(UUID.randomUUID(), contact, "TechCorp", "NEW");
+    Lead existingLead = new Lead(UUID.randomUUID(), contact, "TechCorp");
+    Lead duplicateLead = new Lead(UUID.randomUUID(), contact, "TechCorp");
     storage.add(existingLead);
 
         // When
@@ -72,8 +72,8 @@ class LeadStorageTest {
     Address address = new Address("Mogilev", "Pysina", "220102");
     Contact contact = new Contact("timasgridin@mail.ru", "+375299700571", address);
     Contact contact1 = new Contact("timasgridin1@mail.ru", "+3752929700571", address);
-    Lead firstLead = new Lead(UUID.randomUUID(), contact, "TechCorp", "NEW");
-    Lead secondLead = new Lead(UUID.randomUUID(), contact1,  "StartupLab", "NEW");
+    Lead firstLead = new Lead(UUID.randomUUID(), contact, "TechCorp");
+    Lead secondLead = new Lead(UUID.randomUUID(), contact1,  "StartupLab");
     storage.add(firstLead);
     storage.add(secondLead);
 

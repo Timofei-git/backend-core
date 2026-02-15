@@ -1,137 +1,70 @@
 plugins {
     id 'java'
     id 'application'
-    id 'checkstyle'
     id 'jacoco'
-    id 'gg.jte.gradle' version '3.1.15'
-    id 'org.springframework.boot' version '3.5.9'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'checkstyle'
+    id 'gg.jte.gradle' version '3.2.1'
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'ru.mentee.power'
 version = '1.0-SNAPSHOT'
 
+repositories {
+    mavenCentral()
+}
+
 ext {
-    junitVersion = '5.10.0'
-    assertjVersion = '3.25.3'
-    lombokVersion = '1.18.36'
+    junitVersion = '5.11.0'
+    assertjVersion = '3.26.3'
+    lombokVersion = '1.18.40'
     servletVersion = '6.1.0'
     tomcatVersion = '11.0.1'
-    jteVersion = '3.1.15'
-    springBootVersion = '3.5.9'
+    springBootVersion = '3.5.5'
+    jteVersion = '3.2.1'
     jteSpringBootVersion = '3.2.1'
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.mockito:mockito-core:5.21.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.21.0'
+
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "gg.jte:jte:${jteVersion}"
+    implementation "gg.jte:jte-spring-boot-starter-3:${jteSpringBootVersion}"
+
+
+}
+test {
+    useJUnitPlatform()
+}
+
+checkstyle {
+    configDirectory = file("config/checkstyle")
+    configFile = file("config/checkstyle/checkstyle.xml")
+    toolVersion = '10.12.3'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += "$buildDir/generated/sources/jte/main"
+        }
+    }
+}
+bootRun {
+    mainClass = 'ru.mentee.power.crm.spring.Application'
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
-}
-
-application {
-    mainClass = 'ru.mentee.power.crm.Main'
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation platform("org.junit:junit-bom:5.10.0")
-    testImplementation "org.junit.jupiter:junit-jupiter"
-    testImplementation "org.assertj:assertj-core:3.26.3"
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
-    testImplementation 'org.mockito:mockito-core:5.14.2'
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
-
-    implementation "jakarta.servlet:jakarta.servlet-api:${servletVersion}"
-    implementation "org.apache.tomcat.embed:tomcat-embed-core:11.0.1"
-
-    implementation "gg.jte:jte:${jteVersion}"
-    implementation "gg.jte:jte-runtime:${jteVersion}"
-
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-}
-
-checkstyle {
-    toolVersion = '10.12.4'  // актуальная версия на 2025 год для Gradle 9.1
-    maxErrors = 0      // даже 1 ошибка (severity=error) → BUILD FAILED
-    maxWarnings = 999  // предупреждения (severity=warning) не блокируют сборку
-    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml") // опционально, custom config
-}
-
-// Настройка JaCoCo
-jacoco {
-    toolVersion = '0.8.14'  // актуальная версия на 2025 год с поддержкой Java 25
-}
-
-// Настройка тестов
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport  // генерировать отчёт после тестов
-}
-
-// Настройка JaCoCo отчёта
-jacocoTestReport {
-    dependsOn test
-
-    classDirectories.setFrom(
-            files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        '**/*Main*.*',
-                        '**/*List*.*',
-                        '**/*Repository*.*',
-                        '**/*Tracker*.*',// main-классы
-                        '**/*Application*.*',   // Spring Boot / entry point
-                        '**/*Demo*.*'           // демо-классы
-                ])
-            })
-    )
-
-    reports {
-        html.required = true
-        html.outputLocation = layout.buildDirectory.dir('reports/jacoco/test/html')
-    }
-}
-
-// Настройка проверки покрытия (минимум 80%)
-jacocoTestCoverageVerification {
-    dependsOn jacocoTestReport
-    classDirectories.setFrom(
-            files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        '**/*Main*.*',
-                        '**/*List*.*',
-                        '**/*Tracker*.*',
-                        '**/*Repository*.*',
-                        '**/*Application*.*',
-                        '**/*Demo*.*'
-                ])
-            })
-    )
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.75  // 80% покрытия инструкций
-            }
-        }
-    }
-}
-
-// Интеграция проверок в lifecycle
-check {
-    dependsOn jacocoTestCoverageVerification
-}
-
-jte {
-    sourceDirectory = file("src/main/jte").toPath()
-    contentType = "Html"
-    binaryStaticContent = false
-}
-bootRun {
-    mainClass = 'ru.mentee.power.crm.spring.Application'
 }

@@ -1,5 +1,7 @@
 package ru.mentee.power.crm.repository;
 
+import ru.mentee.power.crm.model.Lead;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +9,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import ru.mentee.power.crm.model.Lead;
-
 public class InMemoryLeadRepository implements LeadRepository {
+
   private final Map<UUID, Lead> storage = new HashMap<>();
   private final Map<String, UUID> emailIndex = new HashMap<>();
 
@@ -45,10 +46,5 @@ public class InMemoryLeadRepository implements LeadRepository {
     if (lead != null) {
       emailIndex.remove(lead.email());
     }
-  }
-
-  @Override
-  public int size() {
-    return storage.size();
   }
 }
