@@ -1,7 +1,7 @@
 package ru.mentee.power.crm.service;
 
 import ru.mentee.power.crm.model.Lead;
-import ru.mentee.power.crm.model.LeadStatus;
+import ru.mentee.power.crm.domain.LeadStatus;
 import ru.mentee.power.crm.repository.LeadRepository;
 
 import java.util.List;
@@ -11,33 +11,20 @@ import java.util.UUID;
 public class LeadService {
 
   private final LeadRepository repository;
-
-  // DI через конструктор — не создаём repository внутри!
   public LeadService(LeadRepository repository) {
     this.repository = repository;
   }
-
-  /**
-   * Создаёт нового лида с проверкой уникальности email.
-   *
-   * @throws IllegalStateException если лид с таким email уже существует
-   */
   public Lead addLead(String email, String company, LeadStatus status) {
     Optional<Lead> existing = repository.findByEmail(email);
     if (existing.isPresent()) {
       throw new IllegalStateException("Lead with email already exists: " + email);
     }
-
-    // Создаём нового лида
     Lead lead = new Lead(
         UUID.randomUUID(),
         email,
-       // phone,
         company,
         status
     );
-
-    // Сохраняем через repository
     return repository.save(lead);
   }
 
